@@ -1,0 +1,13 @@
+(defn rotations [s]
+  (let [n (count s)
+        concatenated-string (str s s)]
+    (map (fn [i] (subs concatenated-string (+ i 1) (+ i n 1))) (range n))))
+
+(defn main []
+  (let [t (Integer. (read-line))] ; Number of test cases
+    (doseq [_ (range t)]
+      (let [s (read-line)
+            rots (rotations s)]
+        (println (clojure.string/join " " rots))))))
+
+(main)
