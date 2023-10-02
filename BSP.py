@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+import os
 
 class TreeNode:
     def __init__(self, line=None, identifier=None):
@@ -8,6 +9,8 @@ class TreeNode:
         self.front = None
         self.back = None
     
+
+
     def midpoint(self):
         if not self.line:
             return None
@@ -16,6 +19,7 @@ class TreeNode:
         my = (y1 + y2) / 2
         return (mx, my)
 
+    
 
 def detect_lines(image_path):
     img = cv2.imread(image_path)
@@ -130,14 +134,19 @@ def check_collision(node, start_point, end_point):
         return "HIT"
 
 
+
 if __name__ == '__main__':
-    image_path = r'C:\Users\ethob\Desktop\School Sophmore Y1\CS\CSHW2\CSHW2\Picture1.png'
+    
+    image_path = r'Picture1.png'
+    if not os.path.exists(image_path):
+        raise ValueError(f"Image not found at path: {image_path}")
     detected_lines = detect_lines(image_path)
     starting_line = select_starting_line(detected_lines)
     remaining_lines = [line for line in detected_lines if line != starting_line]
     bsp_tree = build_bsp_tree([starting_line] + remaining_lines)
     print("\nIn-order Traversal of the BSP Tree:")
     in_order_traversal(bsp_tree)
+    
 
     # Define the start and end points based on your image.
     # You'd typically compute these from the image, but for now, let's hardcode them.
@@ -150,3 +159,5 @@ if __name__ == '__main__':
         print("\nThe line segment from", start_point, "to", end_point, "has a collision!")
     else:
         print("\nThe line segment from", start_point, "to", end_point, "does NOT have a collision!")
+
+    
